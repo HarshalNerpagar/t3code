@@ -1,3 +1,4 @@
+import { usePaneRole } from "../../components/ui/Pane";
 import { Button } from "../../components/ui/Button";
 import {
   applyPullRequestDraftFilterChange,
@@ -182,6 +183,9 @@ export function PullRequestsScreen(
     result.updateEntry,
   );
   const sidebar = props.sidebar === true || primaryColumn !== null;
+  const paneRole = usePaneRole();
+  const sidebarSurface =
+    props.sidebar === true || (primaryColumn !== null && paneRole === "sidebar");
   const selectedKey = props.selectedPullRequestKey ?? primaryColumn?.selectedPullRequestKey;
   const connectedKey = connectedTargets.map((target) => target.environmentId).join("\n");
   const entries = useMemo(
@@ -275,7 +279,7 @@ export function PullRequestsScreen(
     />
   );
   const list = (
-    <View className={sidebar ? "flex-1 bg-drawer" : "flex-1 bg-screen"}>
+    <View className={sidebarSurface ? "flex-1 bg-drawer" : "flex-1 bg-screen"}>
       <LegendList
         ref={listRef}
         data={entries}
